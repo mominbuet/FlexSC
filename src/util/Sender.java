@@ -8,7 +8,7 @@ public class Sender<T> extends network.Client implements Runnable {
 
 	public void run() {
 		try {
-			connect("192.168.1.102", 54321);
+			connect("localhost", 54321);
 			System.out.println("connected");
 
 			while(true) {
