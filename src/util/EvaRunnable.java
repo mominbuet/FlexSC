@@ -76,13 +76,14 @@ public abstract class EvaRunnable<T> extends network.Client implements Runnable 
         ConfigParser config = new ConfigParser("Config.conf");
         args = new String[4];
         args[0] = "example.HammingDistanceString";
-        args[1] = "ABCC";
+        args[1] = "C";
 //        args[1] = "12";
 //        args[3] = "100";
         Class<?> clazz = Class.forName(args[0] + "$Evaluator");
         EvaRunnable run = (EvaRunnable) clazz.newInstance();
         run.setParameter(config, Arrays.copyOfRange(args, 1, args.length));
         run.run();
+        
         if (Flag.CountTime) {
             Flag.sw.print();
         }

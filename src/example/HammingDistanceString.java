@@ -14,7 +14,10 @@ public class HammingDistanceString {
 
     static public <T> T[] compute(CompEnv<T> gen, T[] inputA, T[] inputB) {
         //(T[]) new Object[];
-        T[] t = new IntegerLib<T>(gen).hammingDistance(inputA, inputB);
+        T[] t = new IntegerLib<T>(gen).hammingDistance(Arrays.copyOfRange(inputA, 0, inputA.length), Arrays.copyOfRange(inputB, 0, inputB.length));
+        /*
+         this block is not working
+         */
         T[] ret = gen.newTArray(t.length);
         boolean init = false;
         for (int i = 0; i < ret.length; i++) {
@@ -35,7 +38,8 @@ public class HammingDistanceString {
 //                System.out.println("Result " + res);
             }
         }
-        gen.flush();
+        
+        //gen.flush();
         //System.out.println(Arrays.toString(gen.outputToAlice(ret)));
 //        return ret;
         return t;
