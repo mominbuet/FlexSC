@@ -3,6 +3,7 @@ package example;
 import util.EvaRunnable;
 import util.GenRunnable;
 import circuits.arithmetic.IntegerLib;
+import circuits.arithmetic.StringLib;
 import flexsc.CompEnv;
 import gc.BadLabelException;
 import java.lang.reflect.Array;
@@ -14,35 +15,37 @@ public class HammingDistanceString {
 
     static public <T> T[] compute(CompEnv<T> gen, T[] inputA, T[] inputB) {
         //(T[]) new Object[];
-        T[] t = new IntegerLib<T>(gen).hammingDistance(Arrays.copyOfRange(inputA, 0, inputA.length), Arrays.copyOfRange(inputB, 0, inputB.length));
-        /*
-         this block is not working
-         */
-        T[] ret = gen.newTArray(t.length);
-        boolean init = false;
-        for (int i = 0; i < ret.length; i++) {
-            ret[i] = gen.newT(false);
-        }
-        int res = 0;
-        for (int i = 0; i < inputA.length; i += 8) {
-            T[] tmp = new IntegerLib<T>(gen).hammingDistance(Arrays.copyOfRange(inputA, i, i + 8), Arrays.copyOfRange(inputB, i, i + 8));
-            if (Utils.toInt(gen.outputToAlice(tmp)) > 0) {
-                if (init) {
-                    ret = new IntegerLib<T>(gen).add(tmp, ret);
+//        T[] t = new IntegerLib<T>(gen).hammingDistance(Arrays.copyOfRange(inputA, 0, inputA.length), Arrays.copyOfRange(inputB, 0, inputB.length));
+//        /*
+//         this block is not working
+//         */
+//        T[] ret = gen.newTArray(t.length);
+//        boolean init = false;
+//        for (int i = 0; i < ret.length; i++) {
+//            ret[i] = gen.newT(false);
+//        }
+//        int res = 0;
+//
+//        for (int i = 0; i < inputA.length; i += 8) {
+//            T[] tmp = new IntegerLib<T>(gen).hammingDistance(Arrays.copyOfRange(inputA, i, i + 8), Arrays.copyOfRange(inputB, i, i + 8));
+//            if (Utils.toInt(gen.outputToAlice(tmp)) > 0) {
+//                if (init) {
+//                    ret = new IntegerLib<T>(gen).add(tmp, ret);
+//
+//                } else {
+//                    System.arraycopy(ret, 0, tmp, 0, tmp.length);
+//                    init = true;
+//                }
+//                res++;
+////                System.out.println("Result " + res);
+//            }
+//        }
 
-                } else {
-                    System.arraycopy(ret, 0, tmp, 0, tmp.length);
-                    init = true;
-                }
-                res++;
-//                System.out.println("Result " + res);
-            }
-        }
-        
         //gen.flush();
         //System.out.println(Arrays.toString(gen.outputToAlice(ret)));
 //        return ret;
-        return t;
+        
+        return new StringLib<T>(gen).add(inputA, inputB);
     }
 
     public static class Generator<T> extends GenRunnable<T> {
@@ -67,7 +70,9 @@ public class HammingDistanceString {
 
         @Override
         public void prepareOutput(CompEnv<T> gen) throws BadLabelException {
-            System.out.println("Output " + Utils.toInt(gen.outputToAlice(scResult)));
+//            System.out.println("Output boolean " +Arrays.toString( Utils.toBooleanArray(gen.outputToAlice(scResult))));
+//            gen.flush();
+            System.out.println("Output " + Utils.toString(gen.outputToAlice(scResult)));
         }
 
     }

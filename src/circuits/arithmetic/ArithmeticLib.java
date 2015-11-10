@@ -3,31 +3,36 @@ package circuits.arithmetic;
 import flexsc.CompEnv;
 
 public interface ArithmeticLib<T> {
-	CompEnv<T> getEnv();
-	T[] inputOfAlice(double d);
 
-	T[] inputOfBob(double d);
-	
-	double outputToAlice(T[] a);
+    CompEnv<T> getEnv();
 
-	T[] add(T[] x, T[] y);
+    T[] inputOfAlice(double d);
 
-	T[] multiply(T[] x, T[] y);
+    T[] inputOfBob(double d);
 
-	T[] div(T[] x, T[] y);
+    double outputToAlice(T[] a);
 
-	T[] sub(T[] x, T[] y);
+    T[] add(T[] x, T[] y);
 
-	T[] publicValue(double v);
+    T[] multiply(T[] x, T[] y);
 
-	T leq(T[] a, T[] b);
+    T[] div(T[] x, T[] y);
 
-	T eq(T[] a, T[] b);
+    T[] sub(T[] x, T[] y);
 
-	T[] sqrt(T[] a);
-	
-	T[] toSecureInt(T[] a, IntegerLib<T> lib);
-	T[] toSecureFloat(T[] a, FloatLib<T> lib);
-	T[] toSecureFixPoint(T[] a, FixedPointLib<T> lib);
-	int numBits();
+    T[] publicValue(double v);
+
+    T leq(T[] a, T[] b);
+
+    T eq(T[] a, T[] b);
+
+    T[] sqrt(T[] a);
+
+    T[] toSecureInt(T[] a, IntegerLib<T> lib);
+
+    T[] toSecureFloat(T[] a, FloatLib<T> lib);
+
+    T[] toSecureFixPoint(T[] a, FixedPointLib<T> lib);
+
+    int numBits();
 }
