@@ -7,7 +7,9 @@ package circuits.arithmetic;
 
 import circuits.CircuitLib;
 import flexsc.CompEnv;
+import java.lang.reflect.Array;
 import util.Utils;
+import java.lang.UnsupportedOperationException;
 
 /**
  *
@@ -19,8 +21,28 @@ public class StringLib<T> extends CircuitLib<T> {
         super(e);
     }
 
+    public T Contains(T[] x, T[] y) {
+        throw new UnsupportedOperationException("Getting there soon");
+    }
+
+    public T[] hammingDistance(T[] x, T[] y) {
+        throw new UnsupportedOperationException("Getting there soon");
+    }
+
+    /**
+     * Concatenates two strings
+     *
+     * @param x
+     * @param y
+     * @return
+     */
     public T[] add(T[] x, T[] y) {
-        return y;
+        //@SuppressWarnings("unchecked")
+        T[] ret = (T[]) Array.newInstance(x.getClass().getComponentType(), x.length + y.length);
+
+        System.arraycopy(x, 0, ret, 0, x.length);
+        System.arraycopy(y, 0, ret, x.length, y.length);
+        return ret;
     }
 
     public String outputToAlice(T[] a) {
