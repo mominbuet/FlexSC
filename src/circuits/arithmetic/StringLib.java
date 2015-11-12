@@ -38,11 +38,11 @@ public class StringLib<T> extends CircuitLib<T> {
      */
     public T[] add(T[] x, T[] y) {
         //@SuppressWarnings("unchecked")
-        T[] ret = (T[]) Array.newInstance(x.getClass().getComponentType(), x.length + y.length);
 
-        System.arraycopy(x, 0, ret, 0, x.length);
-        System.arraycopy(y, 0, ret, x.length, y.length);
-        return ret;
+        T[] result = env.newTArray(x.length + y.length);
+        System.arraycopy(x, 0, result, 0, x.length);
+        System.arraycopy(y, 0, result, x.length, y.length);
+        return result;
     }
 
     public String outputToAlice(T[] a) {

@@ -76,7 +76,7 @@ public abstract class EvaRunnable<T> extends network.Client implements Runnable 
         ConfigParser config = new ConfigParser("Config.conf");
         args = new String[4];
         args[0] = "example.HammingDistanceString";
-        args[1] = "CA";
+        args[1] = "CAA";
 //        args[1] = "12";
 //        args[3] = "100";
         Class<?> clazz = Class.forName(args[0] + "$Evaluator");

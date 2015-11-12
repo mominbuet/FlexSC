@@ -74,7 +74,7 @@ public abstract class GenRunnable<T> extends network.Server implements Runnable 
         ConfigParser config = new ConfigParser("Config.conf");
         args = new String[4];
         args[0] = "example.HammingDistanceString";
-        args[1] = "ZA";
+        args[1] = "ZAA";
 //        args[1].compareTo(null)
 //        args[1] = "10";
 //        args[3] = "";
@@ -85,6 +85,6 @@ public abstract class GenRunnable<T> extends network.Server implements Runnable 
         if (Flag.CountTime) {
             Flag.sw.print();
         }
-        
+
     }
 }

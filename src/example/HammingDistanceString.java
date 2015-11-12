@@ -44,7 +44,6 @@ public class HammingDistanceString {
         //gen.flush();
         //System.out.println(Arrays.toString(gen.outputToAlice(ret)));
 //        return ret;
-        
         return new StringLib<T>(gen).add(inputA, inputB);
     }
 
@@ -57,14 +56,18 @@ public class HammingDistanceString {
         @Override
         public void prepareInput(CompEnv<T> gen) {
             //getting binary from string
+            System.out.println("in " + args[0]);
             boolean[] in = Utils.fromString(args[0]);
             inputA = gen.inputOfAlice(in);
+
             gen.flush();
+//            System.out.println("Input: "+Utils.toString(gen.outputToAlice(inputA)));
             inputB = gen.inputOfBob(new boolean[in.length]);
         }
 
         @Override
         public void secureCompute(CompEnv<T> gen) {
+
             scResult = compute(gen, inputA, inputB);
         }
 

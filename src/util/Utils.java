@@ -10,6 +10,7 @@ import java.util.Arrays;
 
 import flexsc.CompEnv;
 import flexsc.Party;
+import java.util.BitSet;
 
 public class Utils {
 
@@ -153,20 +154,26 @@ public class Utils {
      */
     public static boolean[] fromString(String input) {
         byte[] bytes = input.getBytes();
-        StringBuilder binary = new StringBuilder();
-        boolean[] ret = new boolean[bytes.length * 8];
-        int j = 0;
-        for (byte b : bytes) {
-            int val = b;
-            for (int i = 0; i < 8; i++) {
-                binary.append((val & 128) == 0 ? 0 : 1);
-                val <<= 1;
-                ret[j++] = !((val & 128) == 0);
-            }
-            //   binary.append(' ');
+//        StringBuilder binary = new StringBuilder();
+//        boolean[] ret = new boolean[bytes.length * 8];
+//        int j = 0;
+//        for (byte b : bytes) {
+//            int val = b;
+//            for (int i = 0; i < 8; i++) {
+//                binary.append((val & 128) == 0 ? 0 : 1);
+//                val <<= 1;
+//                ret[j++] = !((val & 128) == 0);
+//            }
+//            //   binary.append(' ');
+//        }
+        BitSet bits = BitSet.valueOf(bytes);
+        boolean[] bools = new boolean[bytes.length * 8];
+        for (int i = bits.nextSetBit(0); i != -1; i = bits.nextSetBit(i + 1)) {
+            bools[i] = true;
         }
+        return bools;
 //        System.out.println("'" + hexBits + "' to binary: " + binary);
-        return ret;
+//        return ret;
     }
 
     public static boolean[] fromFloat(double d, int widthV, int widthP) {
@@ -231,15 +238,22 @@ public class Utils {
      * @return
      */
     public static String toString(boolean[] input) {
-        byte[] toReturn = new byte[input.length / 8];
-        for (int entry = 0; entry < toReturn.length; entry++) {
-            for (int bit = 0; bit < 8; bit++) {
-                if (input[entry * 8 + bit]) {
-                    toReturn[entry] |= (128 >> bit);
-                }
+
+//        byte[] toReturn = new byte[input.length /8];
+//        for (int entry = 0; entry < toReturn.length; entry++) {
+//            for (int bit = 0; bit < 8; bit++) {
+//                if (input[entry * 8 + bit]) {
+//                    toReturn[entry] |= (128 >> bit);
+//                }
+//            }
+//        }
+        BitSet bits = new BitSet(input.length);
+        for (int i = 0; i < input.length; i++) {
+            if (input[i]) {
+                bits.set(i);
             }
         }
-        return new String(toReturn);
+        return new String(bits.toByteArray());
     }
 
     public static BigInteger toBigInteger(boolean[] b) {
