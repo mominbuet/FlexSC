@@ -8,12 +8,12 @@ public interface IWritable<T1 extends IWritable<T1, T2>, T2> {
 
 	public T1 newObj(T2[] data) throws Exception;
 	
-	default T1 fake() throws Exception {
-		return newObj(getBits());
-	};
-	
-	default T1 muxFake(T2 dummy) throws Exception {
-		return fake();
-	}
+//	default T1 fake() throws Exception {
+//		return newObj(getBits());
+//	};
+//	
+//	default T1 muxFake(T2 dummy) throws Exception {
+//		return fake();
+//	}
 
 }

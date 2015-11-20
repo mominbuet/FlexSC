@@ -8,6 +8,9 @@ import flexsc.CompEnv;
 import flexsc.Flag;
 import flexsc.Mode;
 import flexsc.Party;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class GenRunnable<T> extends network.Server implements Runnable {
 
@@ -73,8 +76,10 @@ public abstract class GenRunnable<T> extends network.Server implements Runnable 
     public static void main(String[] args) throws ParseException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         ConfigParser config = new ConfigParser("Config.conf");
         args = new String[4];
-        args[0] = "example.HammingDistanceString";
-        args[1] = "ZAA";
+        args[0] = "example.DecryptHE";
+        args[1] = new BigInteger( "25014245964971028770597203838370394338474797274846903098368352491545212330531583551869516709265179313783315946776497232942437661233058577960755917810610552839266415657043701045012796503966358348939252019687870098281497653210454152560580974028957386222560459270736241373715815399886015855845217331383378473149")+"";
+//        args[1] = new Paillier(true).Encryption(new BigInteger("100")).toString();
+//        args[2] = args[1].length() + "";
 //        args[1].compareTo(null)
 //        args[1] = "10";
 //        args[3] = "";

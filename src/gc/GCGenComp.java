@@ -1,5 +1,6 @@
 package gc;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -12,6 +13,7 @@ import flexsc.CompEnv;
 import flexsc.Flag;
 import flexsc.Mode;
 import flexsc.Party;
+import java.util.List;
 
 public abstract class GCGenComp extends GCCompEnv {
 
@@ -101,6 +103,15 @@ public abstract class GCGenComp extends GCCompEnv {
         return result;
     }
 
+//    public GCSignal[] inputOfBob(List<Boolean> x) {
+//        GCSignal[] ret = new GCSignal[x.size()];
+//        for (int i = 0; i < x.size(); i += Flag.OTBlockSize) {
+//            GCSignal[] tmp = inputOfBobInter(Arrays.copyOfRange(x.toArray(ret), i, Math.min(i + Flag.OTBlockSize, x.size())));
+//            System.arraycopy(tmp, 0, ret, i, tmp.length);
+//        }
+//        return ret;
+//    }
+    
     public GCSignal[] inputOfBob(boolean[] x) {
         GCSignal[] ret = new GCSignal[x.length];
         for (int i = 0; i < x.length; i += Flag.OTBlockSize) {
