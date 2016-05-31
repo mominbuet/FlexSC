@@ -75,8 +75,9 @@ public abstract class EvaRunnable<T> extends network.Client implements Runnable 
     public static void main(String[] args) throws InstantiationException, IllegalAccessException, ParseException, ClassNotFoundException {
         ConfigParser config = new ConfigParser("Config.conf");
         args = new String[4];
-        args[0] = "example.DecryptHE";
-        args[1] = "0";
+//        args[0] = "example.DecryptHE";
+        args[0] = "example.HammingDistanceString";
+        args[1] = "T";
 //        args[2] = args[1].length()+"";
 //        args[1] = "12";
 //        args[3] = "100";

@@ -247,6 +247,7 @@ public class Utils {
 //                }
 //            }
 //        }
+        System.out.println("toString "+Arrays.toString( input));
         BitSet bits = new BitSet(input.length);
         for (int i = 0; i < input.length; i++) {
             if (input[i]) {

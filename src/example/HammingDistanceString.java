@@ -44,7 +44,7 @@ public class HammingDistanceString {
         //gen.flush();
         //System.out.println(Arrays.toString(gen.outputToAlice(ret)));
 //        return ret;
-        return new StringLib<T>(gen).add(inputA, inputB);
+        return new StringLib<T>(gen).editDistance(inputA, inputB);
     }
 
     public static class Generator<T> extends GenRunnable<T> {
@@ -75,7 +75,9 @@ public class HammingDistanceString {
         public void prepareOutput(CompEnv<T> gen) throws BadLabelException {
 //            System.out.println("Output boolean " +Arrays.toString( Utils.toBooleanArray(gen.outputToAlice(scResult))));
 //            gen.flush();
-            System.out.println("Output " + Utils.toString(gen.outputToAlice(scResult)));
+//            System.out.println(gen.outputToAlice(scResult));
+
+            System.out.println("Output " + Utils.toString(gen.outputToAlice(scResult)));//Utils.toString
         }
 
     }

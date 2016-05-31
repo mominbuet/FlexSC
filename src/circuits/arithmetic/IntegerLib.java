@@ -117,6 +117,20 @@ public class IntegerLib<T> extends CircuitLib<T> implements ArithmeticLib<T> {
         return geq(y, x);
     }
 
+    
+    public T[] pow(T[] x, T[] y) {
+        T[] res = env.newTArray(x.length);
+        res = multiply(x, x);
+        System.out.println("number of ones "+numberOfOnes(x).toString());
+//        for (int i = 0; i < x.length; i++) {
+//            System.out.println("x" + x[ i]);
+//        }
+        for (int i = 0; i < 2; i++) {
+            res = multiply(res, x);
+        }
+        return res;
+    }
+
     public T[] multiply(T[] x, T[] y) {
         return Arrays.copyOf(multiplyInternal(x, y), x.length);// res;
     }
@@ -500,6 +514,10 @@ public class IntegerLib<T> extends CircuitLib<T> implements ArithmeticLib<T> {
         return padSignal(rightShift(root), a.length);
     }
 
+//    public T[] decrypt(T[] a, T[] b, T[] nsquare) {
+//
+//        return mod(multiplyFull(a, b), nsquare);
+//    }
     public T[] inputOfAlice(double d) {
         return env.inputOfAlice(Utils.fromLong((long) d, width));
     }
