@@ -2,13 +2,9 @@ package example;
 
 import util.EvaRunnable;
 import util.GenRunnable;
-import circuits.arithmetic.IntegerLib;
 import circuits.arithmetic.StringLib;
 import flexsc.CompEnv;
 import gc.BadLabelException;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import org.apache.commons.lang.ArrayUtils;
 import util.Utils;
 
 public class HammingDistanceString {
@@ -44,7 +40,7 @@ public class HammingDistanceString {
         //gen.flush();
         //System.out.println(Arrays.toString(gen.outputToAlice(ret)));
 //        return ret;
-        return new StringLib<T>(gen).editDistance(inputA, inputB);
+        return new StringLib<T>(gen).editDistance(inputA, inputB);//editDistance
     }
 
     public static class Generator<T> extends GenRunnable<T> {
@@ -77,7 +73,7 @@ public class HammingDistanceString {
 //            gen.flush();
 //            System.out.println(gen.outputToAlice(scResult));
 
-            System.out.println("Output " + Utils.toString(gen.outputToAlice(scResult)));//Utils.toString
+            System.out.println("Output " + Utils.toInt(gen.outputToAlice(scResult)));//Utils.toString
         }
 
     }
@@ -103,7 +99,8 @@ public class HammingDistanceString {
 
         @Override
         public void prepareOutput(CompEnv<T> gen) throws BadLabelException {
-            gen.outputToAlice(scResult);
+//            gen.outputToAlice(scResult);
+             System.out.println("Output " + Utils.toInt(gen.outputToAlice(scResult)));//Utils.toString
         }
     }
 }

@@ -7,9 +7,8 @@ package circuits.arithmetic;
 
 import circuits.CircuitLib;
 import flexsc.CompEnv;
-import java.lang.reflect.Array;
+import gc.GCSignal;
 import util.Utils;
-import java.lang.UnsupportedOperationException;
 import java.util.Arrays;
 
 /**
@@ -87,15 +86,30 @@ public class StringLib<T> extends CircuitLib<T> {
         return add(x, y, false);
     }
 
+    private int toDecimal(T[] arr) {
+        boolean[] tmp = new boolean[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            tmp[i] = ((GCSignal) arr[i]).v;
+        }
+        return Utils.toInt(tmp);
+    }
+
     private T[] tobinary(int val, int length) {
         T[] res = zeros(length);
+
         if (val < 0) {
             val = 0;
         }
-        char[] bin = Integer.toBinaryString(val).toCharArray();
-        for (int j = 0 + (16 - bin.length); j < 16; j++) {
-            if (bin[j - (16 - bin.length)] == '1') {
-                res[j] = SIGNAL_ONE;//res.length - bin.length + 
+//        char[] bin = Integer.toBinaryString(val).toCharArray();
+//        for (int j = 0 + (16 - bin.length); j < 16; j++) {
+//            if (bin[j - (16 - bin.length)] == '1') {
+//                res[j] = SIGNAL_ONE;//res.length - bin.length + 
+//            }
+//        }
+        boolean[] arr = Utils.fromInt(val, length);
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i]) {
+                res[i] = SIGNAL_ONE;
             }
         }
         return res;
@@ -104,34 +118,40 @@ public class StringLib<T> extends CircuitLib<T> {
     public T[] editDistance(T[] x, T[] y) {
 //        System.out.println("size x " + x.length + " y " + y.length);
         T[] costs = zeros(y.length * 2 + 16);
-        for (int j = 1; j < y.length / 8 + 1; j++) {
-            char[] bin = Integer.toBinaryString(j).toCharArray();
-            for (int k = (16 - bin.length) + j * 16; k < 16 + j * 16; k++) {
-                if (bin[k - (16 - bin.length) - j * 16] == '1') {
-                    costs[k] = SIGNAL_ONE;
-                }
-            }
+        for (int j = 0; j < y.length / 8 + 1; j++) {
+            System.arraycopy(tobinary(j, 16), 0, costs, j * 16, 16);
+//            char[] bin = Integer.toBinaryString(j).toCharArray();
+//            for (int k = (16 - bin.length) + j * 16; k < 16 + j * 16; k++) {
+//                if (bin[k - (16 - bin.length) - j * 16] == '1') {
+//                    costs[k] = SIGNAL_ONE;
+//                }
+//            }
         }
 
         for (int i = 8; i <= x.length; i += 8) {
-            T[] nw = tobinary(i - 1, 16);
-            char[] bin = Integer.toBinaryString(i).toCharArray();
-            for (int j = 0 + (16 - bin.length); j < 16; j++) {
-                if (bin[j - (16 - bin.length)] == '1') {
-                    costs[j] = SIGNAL_ONE;//costs.length - bin.length +
-                }
-            }
+            T[] nw = tobinary(i - 8 - 1, 16);
+            System.out.println("nw " + toDecimal(nw));
+//            char[] bin = Integer.toBinaryString(i).toCharArray();
+//            for (int j = 0 + (16 - bin.length); j < 16; j++) {
+//                if (bin[j - (16 - bin.length)] == '1') {
+//                    costs[j] = SIGNAL_ONE;//costs.length - bin.length +
+//                }
+//            }
+            System.arraycopy(tobinary(i - 8, 16), 0, costs, 0, 16);
             T[] xChar = Arrays.copyOfRange(x, i - 8, i);
-
+            int costCounter = 16;
             for (int j = 8; j <= y.length; j += 8) {
                 T[] yChar = Arrays.copyOfRange(y, j - 8, j);
-                T[] costJ = Arrays.copyOfRange(costs, j - 8 + 16, j - 8 + 16 + 16);
-                T[] costJPrev = Arrays.copyOfRange(costs, j - 8, j - 8 + 16);
+                T[] costJ = Arrays.copyOfRange(costs, costCounter, costCounter + 16);
+                T[] costJPrev = Arrays.copyOfRange(costs, costCounter - 16, costCounter);
+
+                System.out.println("costJ " + toDecimal(costJ) + " costJPrev " + toDecimal(costJPrev));
                 T[] minCostJJPrev = min(costJ, costJPrev);
                 minCostJJPrev = incrementByOne(minCostJJPrev);
 //                System.out.println(Arrays.toString(yChar));
                 T t = eq(xChar, yChar);
-                if (t == SIGNAL_ZERO) {
+//                System.out.println("t class  " + ((GCSignal)t).getLSB());
+                if (((GCSignal) t).getLSB() == 0) {
                     nw = incrementByOne(nw);
                     System.out.println("MisMatch");
                 } else {
@@ -140,15 +160,24 @@ public class StringLib<T> extends CircuitLib<T> {
                 T[] cj = min(nw, minCostJJPrev);
                 nw = costJ;
                 costJ = cj;
+
+                System.out.println("cost " + toDecimal(cj) + " nw " + toDecimal(nw));
 //                T[] tmp = env.newTArray(costs.length);
 //                tmp[tmp.length] = t;
 //                costs = add(costs, tmp);
-                System.arraycopy(costJ, 0, costs, j - 8 + 16, 16);
+                System.arraycopy(costJ, 0, costs, costCounter, 16);
+                costCounter += 16;
             }
 
         }
-
-        return Arrays.copyOfRange(costs, costs.length - 16, costs.length);
+        T[] res = zeros(16);
+        boolean[] intres = Utils.fromInt(toDecimal(Arrays.copyOfRange(costs, costs.length - 16, costs.length)), 16);
+        for (int i = 0; i < res.length; i++) {
+            if (intres[i]) {
+                res[i] = SIGNAL_ONE;
+            }
+        }
+        return res;
 //        return costs[costs.length];
     }
 
@@ -159,17 +188,64 @@ public class StringLib<T> extends CircuitLib<T> {
     }
 
     public T[] hammingDistance(T[] x, T[] y) {
-        throw new UnsupportedOperationException("Getting there soon");
+        T[] a = xor(x, y);
+        return numberOfOnes(a);
+    }
+
+    public T[] numberOfOnes(T[] t) {
+        if (t.length == 0) {
+            T[] res = env.newTArray(1);
+            res[0] = SIGNAL_ZERO;
+            return res;
+        }
+        if (t.length == 1) {
+            return t;
+        } else {
+            int length = 1;
+            int w = 1;
+            while (length <= t.length) {
+                length <<= 1;
+                w++;
+            }
+            length >>= 1;
+
+            T[] res1 = numberOfOnesN(Arrays.copyOfRange(t, 0, length));
+            T[] res2 = numberOfOnes(Arrays.copyOfRange(t, length, t.length));
+            return add(padSignal(res1, w), padSignal(res2, w));
+        }
+    }
+
+    public T[] numberOfOnesN(T[] res) {
+        if (res.length == 1) {
+            return res;
+        }
+        T[] left = numberOfOnesN(Arrays.copyOfRange(res, 0, res.length / 2));
+        T[] right = numberOfOnesN(Arrays.copyOfRange(res, res.length / 2, res.length));
+        return unSignedAdd(left, right);
+    }
+
+    public T[] unSignedAdd(T[] x, T[] y) {
+        assert (x != null && y != null && x.length == y.length) : "add: bad inputs.";
+        T[] res = env.newTArray(x.length + 1);
+
+        T[] t = add(x[0], y[0], env.newT(false));
+        res[0] = t[S];
+        for (int i = 0; i < x.length - 1; i++) {
+            t = add(x[i + 1], y[i + 1], t[COUT]);
+            res[i + 1] = t[S];
+        }
+        res[res.length - 1] = t[COUT];
+        return res;
     }
 
     public T eq(T x, T y) {
-        assert (x != null && y != null) : "CircuitLib.eq: bad inputs";
+        assert (x != null && y != null) : "StringLib.eq: bad inputs";
 
         return not(xor(x, y));
     }
 
     public T eq(T[] x, T[] y) {
-        assert (x != null && y != null && x.length == y.length) : "CircuitLib.eq[]: bad inputs.";
+        assert (x != null && y != null && x.length == y.length) : "StringLib.eq[]: bad inputs.";
 
         T res = env.newT(true);
         for (int i = 0; i < x.length; i++) {

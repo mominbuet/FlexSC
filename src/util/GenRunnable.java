@@ -41,7 +41,7 @@ public abstract class GenRunnable<T> extends network.Server implements Runnable 
     public void run() {
         try {
             if (verbose) {
-                System.out.println("connecting GEN");
+                System.out.println("connecting, I am GEN");
             }
             listen(port);
             if (verbose) {
@@ -78,10 +78,10 @@ public abstract class GenRunnable<T> extends network.Server implements Runnable 
     public static void main(String[] args) throws ParseException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         ConfigParser config = new ConfigParser("Config.conf");
         BigInteger enc = new Paillier(true).Encryption(new BigInteger("6"));
-        args = new String[4];
+        args = new String[2];
 //        args[0] = "example.DecryptHE";
         args[0] = "example.HammingDistanceString";
-        args[1] = "A";
+        args[1] = "AA";
 //        args[1] = enc + "";
 //        args[2] = new Paillier(true).nsquare + "";
 //        System.out.println("regular output " + new Paillier(true).Decryption(enc));

@@ -40,7 +40,7 @@ public abstract class EvaRunnable<T> extends network.Client implements Runnable 
     public void run() {
         try {
             if (verbose) {
-                System.out.println("connecting EVA");
+                System.out.println("connecting, I am EVA");
             }
             connect(host, port);
             if (verbose) {
@@ -74,10 +74,10 @@ public abstract class EvaRunnable<T> extends network.Client implements Runnable 
 //	@SuppressWarnings("rawtypes")
     public static void main(String[] args) throws InstantiationException, IllegalAccessException, ParseException, ClassNotFoundException {
         ConfigParser config = new ConfigParser("Config.conf");
-        args = new String[4];
+        args = new String[2];
 //        args[0] = "example.DecryptHE";
         args[0] = "example.HammingDistanceString";
-        args[1] = "T";
+        args[1] = "TA";
 //        args[2] = args[1].length()+"";
 //        args[1] = "12";
 //        args[3] = "100";
