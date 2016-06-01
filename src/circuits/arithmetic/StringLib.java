@@ -126,7 +126,7 @@ public class StringLib<T> extends CircuitLib<T> {
 //                    costs[k] = SIGNAL_ONE;
 //                }
 //            }
-            
+
         }
 //        System.out.println("last cost "+toDecimal(Arrays.copyOfRange(costs, costs.length-16, costs.length)));
         for (int i = 8; i <= x.length; i += 8) {
@@ -151,7 +151,7 @@ public class StringLib<T> extends CircuitLib<T> {
                 minCostJJPrev = incrementByOne(minCostJJPrev);
 //                System.out.println(Arrays.toString(yChar));
                 T t = eq(xChar, yChar);
-                conditionalIncreament(nw, not(t));
+                nw = conditionalIncreament(nw, not(t));
 //                System.out.println("t class  " + ((GCSignal)t).getLSB());
 //                if (((GCSignal)t).getLSB()==1) {
 //                if (((GCSignal)t).getLSB() == 1) {
@@ -162,11 +162,11 @@ public class StringLib<T> extends CircuitLib<T> {
 //                    System.out.println("MisMatch");
 //                }
                 T[] cj = min(nw, minCostJJPrev);
-//                System.out.println("nw " + toDecimal(nw) + " cost " + 
-//                        toDecimal(cj)+" costcounter "+costCounter+" minCostJJPrev "+toDecimal(minCostJJPrev));//
-                
                 nw = costJ;
                 costJ = cj;
+
+                System.out.println("nw " + toDecimal(nw) + " cost "
+                        + toDecimal(cj) + " costcounter " + costCounter + " minCostJJPrev " + toDecimal(minCostJJPrev));//
 
                 System.arraycopy(costJ, 0, costs, costCounter, 16);
                 costCounter += 16;
@@ -183,13 +183,16 @@ public class StringLib<T> extends CircuitLib<T> {
 //            }
 //        }
 //        return res;
-        return Arrays.copyOfRange(costs, costs.length-16, costs.length);
+        System.out.println("returning " + toDecimal(Arrays.copyOfRange(costs, costs.length - 32, costs.length - 16)));
+        return Arrays.copyOfRange(costs, costs.length - 32, costs.length - 16);
     }
-public T[] conditionalIncreament(T[] x, T flag) {
+
+    public T[] conditionalIncreament(T[] x, T flag) {
         T[] one = zeros(x.length);
         one[0] = mux(SIGNAL_ZERO, SIGNAL_ONE, flag);
         return add(x, one);
     }
+
     public T[] incrementByOne(T[] x) {
         T[] one = zeros(x.length);
         one[0] = SIGNAL_ONE;
