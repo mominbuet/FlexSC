@@ -128,7 +128,7 @@ public class StringLib<T> extends CircuitLib<T> {
 //            }
             
         }
-        System.out.println("last cost "+toDecimal(Arrays.copyOfRange(costs, costs.length-16, costs.length)));
+//        System.out.println("last cost "+toDecimal(Arrays.copyOfRange(costs, costs.length-16, costs.length)));
         for (int i = 8; i <= x.length; i += 8) {
             T[] nw = tobinary(i / 8 - 1, 16);
 //            System.out.print("nwstart " + toDecimal(nw));
@@ -162,8 +162,8 @@ public class StringLib<T> extends CircuitLib<T> {
 //                    System.out.println("MisMatch");
 //                }
                 T[] cj = min(nw, minCostJJPrev);
-                System.out.println("nw " + toDecimal(nw) + " cost " + 
-                        toDecimal(cj)+" costcounter "+costCounter+" minCostJJPrev "+toDecimal(minCostJJPrev));//
+//                System.out.println("nw " + toDecimal(nw) + " cost " + 
+//                        toDecimal(cj)+" costcounter "+costCounter+" minCostJJPrev "+toDecimal(minCostJJPrev));//
                 
                 nw = costJ;
                 costJ = cj;
@@ -173,17 +173,17 @@ public class StringLib<T> extends CircuitLib<T> {
             }
 
         }
-        T[] res = zeros(16);
-        int tmp = toDecimal(Arrays.copyOfRange(costs, costs.length - 16, costs.length));
-        System.out.println("returning " + tmp);
-        boolean[] intres = Utils.fromInt(tmp, 16);
-        for (int i = 0; i < res.length; i++) {
-            if (intres[i]) {
-                res[i] = SIGNAL_ONE;
-            }
-        }
-        return res;
-//        return costs[costs.length];
+//        T[] res = zeros(16);
+//        int tmp = toDecimal(Arrays.copyOfRange(costs, costs.length - 32, costs.length-16));
+////        System.out.println("returning " + tmp);
+//        boolean[] intres = Utils.fromInt(tmp, 16);
+//        for (int i = 0; i < res.length; i++) {
+//            if (intres[i]) {
+//                res[i] = SIGNAL_ONE;
+//            }
+//        }
+//        return res;
+        return Arrays.copyOfRange(costs, costs.length-16, costs.length);
     }
 public T[] conditionalIncreament(T[] x, T flag) {
         T[] one = zeros(x.length);

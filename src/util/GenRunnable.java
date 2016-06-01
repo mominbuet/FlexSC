@@ -81,7 +81,7 @@ public abstract class GenRunnable<T> extends network.Server implements Runnable 
         args = new String[2];
 //        args[0] = "example.DecryptHE";
         args[0] = "example.HammingDistanceString";
-        args[1] = "ATA";
+        args[1] = "AAAA";
 //        args[1] = enc + "";
 //        args[2] = new Paillier(true).nsquare + "";
 //        System.out.println("regular output " + new Paillier(true).Decryption(enc));
