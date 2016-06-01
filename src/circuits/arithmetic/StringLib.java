@@ -151,7 +151,8 @@ public class StringLib<T> extends CircuitLib<T> {
 //                System.out.println(Arrays.toString(yChar));
                 T t = eq(xChar, yChar);
 //                System.out.println("t class  " + ((GCSignal)t).getLSB());
-                if (((GCSignal) t).getLSB() == 0) {
+//                if (!((GCSignal) t).v) {
+                if (t == SIGNAL_ZERO) {
                     nw = incrementByOne(nw);
                     System.out.println("MisMatch");
                 } else {
