@@ -124,7 +124,7 @@ public class GCSignal {
     public String toString() {
         CharBuffer cb = ByteBuffer.wrap(bytes).asCharBuffer();
 //        return cb.toString();
-        return "GCSignal{" +  cb.toString() + ", v=" + v + '}';
+        return "GCSignal{" +  cb.toString() + ",byteslength="+bytes.length+", v=" + v + '}';
     }
 
 }

@@ -77,7 +77,7 @@ public abstract class EvaRunnable<T> extends network.Client implements Runnable 
         args = new String[2];
 //        args[0] = "example.DecryptHE";
         args[0] = "example.HammingDistanceString";
-        args[1] = "TA";
+        args[1] = "ATT";
 //        args[2] = args[1].length()+"";
 //        args[1] = "12";
 //        args[3] = "100";

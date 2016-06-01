@@ -97,9 +97,9 @@ public class StringLib<T> extends CircuitLib<T> {
     private T[] tobinary(int val, int length) {
         T[] res = zeros(length);
 
-        if (val < 0) {
-            val = 0;
-        }
+//        if (val < 0) {
+//            val = 0;
+//        }
 //        char[] bin = Integer.toBinaryString(val).toCharArray();
 //        for (int j = 0 + (16 - bin.length); j < 16; j++) {
 //            if (bin[j - (16 - bin.length)] == '1') {
@@ -126,11 +126,12 @@ public class StringLib<T> extends CircuitLib<T> {
 //                    costs[k] = SIGNAL_ONE;
 //                }
 //            }
+            
         }
-
+        System.out.println("last cost "+toDecimal(Arrays.copyOfRange(costs, costs.length-16, costs.length)));
         for (int i = 8; i <= x.length; i += 8) {
-            T[] nw = tobinary(i - 8 - 1, 16);
-            System.out.println("nw " + toDecimal(nw));
+            T[] nw = tobinary(i / 8 - 1, 16);
+//            System.out.print("nwstart " + toDecimal(nw));
 //            char[] bin = Integer.toBinaryString(i).toCharArray();
 //            for (int j = 0 + (16 - bin.length); j < 16; j++) {
 //                if (bin[j - (16 - bin.length)] == '1') {
@@ -145,34 +146,37 @@ public class StringLib<T> extends CircuitLib<T> {
                 T[] costJ = Arrays.copyOfRange(costs, costCounter, costCounter + 16);
                 T[] costJPrev = Arrays.copyOfRange(costs, costCounter - 16, costCounter);
 
-                System.out.println("costJ " + toDecimal(costJ) + " costJPrev " + toDecimal(costJPrev));
+//                System.out.println("costJ " + toDecimal(costJ) + " costJPrev " + toDecimal(costJPrev));
                 T[] minCostJJPrev = min(costJ, costJPrev);
                 minCostJJPrev = incrementByOne(minCostJJPrev);
 //                System.out.println(Arrays.toString(yChar));
                 T t = eq(xChar, yChar);
+                conditionalIncreament(nw, not(t));
 //                System.out.println("t class  " + ((GCSignal)t).getLSB());
-//                if (!((GCSignal) t).v) {
-                if (t == SIGNAL_ZERO) {
-                    nw = incrementByOne(nw);
-                    System.out.println("MisMatch");
-                } else {
-                    System.out.println("Match" + j);
-                }
+//                if (((GCSignal)t).getLSB()==1) {
+//                if (((GCSignal)t).getLSB() == 1) {
+//
+//                    System.out.println("Match" + j);
+//                } else {
+//                    nw = incrementByOne(nw);
+//                    System.out.println("MisMatch");
+//                }
                 T[] cj = min(nw, minCostJJPrev);
+                System.out.println("nw " + toDecimal(nw) + " cost " + 
+                        toDecimal(cj)+" costcounter "+costCounter+" minCostJJPrev "+toDecimal(minCostJJPrev));//
+                
                 nw = costJ;
                 costJ = cj;
 
-                System.out.println("cost " + toDecimal(cj) + " nw " + toDecimal(nw));
-//                T[] tmp = env.newTArray(costs.length);
-//                tmp[tmp.length] = t;
-//                costs = add(costs, tmp);
                 System.arraycopy(costJ, 0, costs, costCounter, 16);
                 costCounter += 16;
             }
 
         }
         T[] res = zeros(16);
-        boolean[] intres = Utils.fromInt(toDecimal(Arrays.copyOfRange(costs, costs.length - 16, costs.length)), 16);
+        int tmp = toDecimal(Arrays.copyOfRange(costs, costs.length - 16, costs.length));
+        System.out.println("returning " + tmp);
+        boolean[] intres = Utils.fromInt(tmp, 16);
         for (int i = 0; i < res.length; i++) {
             if (intres[i]) {
                 res[i] = SIGNAL_ONE;
@@ -181,7 +185,11 @@ public class StringLib<T> extends CircuitLib<T> {
         return res;
 //        return costs[costs.length];
     }
-
+public T[] conditionalIncreament(T[] x, T flag) {
+        T[] one = zeros(x.length);
+        one[0] = mux(SIGNAL_ZERO, SIGNAL_ONE, flag);
+        return add(x, one);
+    }
     public T[] incrementByOne(T[] x) {
         T[] one = zeros(x.length);
         one[0] = SIGNAL_ONE;

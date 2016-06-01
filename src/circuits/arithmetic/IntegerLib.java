@@ -6,6 +6,7 @@ import java.util.Arrays;
 import util.Utils;
 import circuits.CircuitLib;
 import flexsc.CompEnv;
+import gc.GCSignal;
 
 public class IntegerLib<T> extends CircuitLib<T> implements ArithmeticLib<T> {
 
@@ -54,6 +55,12 @@ public class IntegerLib<T> extends CircuitLib<T> implements ArithmeticLib<T> {
             res[i + 1] = t[S];
         }
         res[res.length - 1] = t[COUT];
+        
+        boolean[] tmp = new boolean[res.length];
+        for (int i = 0; i < tmp.length; i++) {
+            tmp[i]=((GCSignal)res[i]).v;
+        }
+        System.out.println("adding "+Utils.toInt(tmp));
         return res;
     }
 

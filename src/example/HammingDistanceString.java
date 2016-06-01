@@ -52,7 +52,7 @@ public class HammingDistanceString {
         @Override
         public void prepareInput(CompEnv<T> gen) {
             //getting binary from string
-            System.out.println("in " + args[0]);
+            System.out.println("input in gen " + args[0]);
             boolean[] in = Utils.fromString(args[0]);
             inputA = gen.inputOfAlice(in);
 
@@ -87,6 +87,7 @@ public class HammingDistanceString {
         @Override
         public void prepareInput(CompEnv<T> gen) {
             boolean[] in = Utils.fromString(args[0]);
+            System.out.println("input in eva " + args[0]);
             inputA = gen.inputOfAlice(new boolean[in.length]);
             gen.flush();
             inputB = gen.inputOfBob(in);
@@ -99,8 +100,8 @@ public class HammingDistanceString {
 
         @Override
         public void prepareOutput(CompEnv<T> gen) throws BadLabelException {
-//            gen.outputToAlice(scResult);
-             System.out.println("Output " + Utils.toInt(gen.outputToAlice(scResult)));//Utils.toString
+            gen.outputToAlice(scResult);
+//             System.out.println("Output " + Utils.toInt(gen.outputToAlice(scResult)));//Utils.toString
         }
     }
 }

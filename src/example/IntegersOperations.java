@@ -18,7 +18,7 @@ public class IntegersOperations {
 
     static public <T> T[] compute(CompEnv<T> gen, T[] inputA, T[] inputB) {
 //        return new IntegerLib<T>(gen).add(inputA, inputB);
-        return new IntegerLib<T>(gen).pow(inputA, inputB);
+        return new IntegerLib<T>(gen).add(inputA, inputB);
 
     }
 
