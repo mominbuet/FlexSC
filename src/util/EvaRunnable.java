@@ -76,8 +76,12 @@ public abstract class EvaRunnable<T> extends network.Client implements Runnable 
         ConfigParser config = new ConfigParser("Config.conf");
         args = new String[2];
 //        args[0] = "example.DecryptHE";
-        args[0] = "example.HammingDistanceString";
-        args[1] = "ATAAAA";
+        args[0] = "example.HashEquality";
+        args[1] = "11";
+//        for (int i = 0; i < 20; i++) {
+//            args[1]+="A";
+//        }
+        
 //        args[2] = args[1].length()+"";
 //        args[1] = "12";
 //        args[3] = "100";

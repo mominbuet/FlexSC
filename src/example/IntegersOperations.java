@@ -16,9 +16,9 @@ import java.util.Arrays;
 
 public class IntegersOperations {
 
-    static public <T> T[] compute(CompEnv<T> gen, T[] inputA, T[] inputB) {
+    static public <T> T compute(CompEnv<T> gen, T[] inputA, T[] inputB) {
 //        return new IntegerLib<T>(gen).add(inputA, inputB);
-        return new IntegerLib<T>(gen).add(inputA, inputB);
+        return new IntegerLib<T>(gen).eq(inputA, inputB);
 
     }
 
@@ -26,7 +26,7 @@ public class IntegersOperations {
 
         T[] inputA;
         T[] inputB;
-        T[] scResult;
+        T scResult;
 
         @Override
         public void prepareInput(CompEnv<T> gen) {
@@ -44,7 +44,7 @@ public class IntegersOperations {
         @Override
         public void prepareOutput(CompEnv<T> gen) throws BadLabelException {
 //            System.out.println(Arrays.toString(gen.outputToAlice(scResult)));
-            System.out.println("Output " + Utils.toInt(gen.outputToAlice(scResult)));
+            System.out.println("Output " + (gen.outputToAlice(scResult)));
         }
     }
 
@@ -52,7 +52,7 @@ public class IntegersOperations {
 
         T[] inputA;
         T[] inputB;
-        T[] scResult;
+        T scResult;
 
         @Override
         public void prepareInput(CompEnv<T> gen) {
@@ -69,6 +69,8 @@ public class IntegersOperations {
         @Override
         public void prepareOutput(CompEnv<T> gen) throws BadLabelException {
             gen.outputToAlice(scResult);
+//            System.out.println("Output Eva" + (gen.outputToAlice(scResult)));
+
         }
     }
 }

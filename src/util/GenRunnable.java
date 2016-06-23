@@ -65,7 +65,7 @@ public abstract class GenRunnable<T> extends network.Server implements Runnable 
             if (verbose) {
                 System.out.println("Gen running time:" + (e - s) / 1e9);
             }
-            System.out.println(env.numOfAnds);
+            System.out.println("and gates needed" + env.numOfAnds);
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
@@ -80,8 +80,11 @@ public abstract class GenRunnable<T> extends network.Server implements Runnable 
         BigInteger enc = new Paillier(true).Encryption(new BigInteger("6"));
         args = new String[2];
 //        args[0] = "example.DecryptHE";
-        args[0] = "example.HammingDistanceString";
-        args[1] = "ATTTTT";
+        args[0] = "example.HashEquality";
+        args[1] = "10";
+//        for (int i = 0; i < 20; i++) {
+//            args[1]+="A";
+//        }
 //        args[1] = enc + "";
 //        args[2] = new Paillier(true).nsquare + "";
 //        System.out.println("regular output " + new Paillier(true).Decryption(enc));

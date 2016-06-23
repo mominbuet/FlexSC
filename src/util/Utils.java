@@ -78,6 +78,15 @@ public class Utils {
         return res;
     }
 
+//    public static int toInt(boolean[] value) {
+//        int res = 0;
+//        for (int i = 0; i < value.length; i++) {
+//            res = (value[i]) ? (res | (1 << i)) : res;
+//        }
+//
+//        return res;
+//    }
+
     public static int toInt(boolean[] value) {
         int res = 0;
         for (int i = 0; i < value.length; i++) {

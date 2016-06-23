@@ -16,3 +16,5 @@ hs_err_pid*
 .project
 NPOTKey
 source.txt
+/nbproject/private/
+/build/

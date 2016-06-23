@@ -115,6 +115,19 @@ public class StringLib<T> extends CircuitLib<T> {
         return res;
     }
 
+    public T[] equalArray(T[][] x, T[][] y) {
+        T[] res = zeros(10);
+        System.out.println("x 0 length" + y[0].length);
+//        for (int i = 0; i < 10; i++) {
+//            res[i] = zeros(1);
+//        }
+//        T[] res = zeros(32);
+        for (int i = 0; i < 10; i++) {
+            res[i] = eq(x[i], y[i]);
+        }
+        return res;
+    }
+
     public T[] editDistance(T[] x, T[] y) {
 //        System.out.println("size x " + x.length + " y " + y.length);
         T[] costs = zeros(y.length * 2 + 16);
@@ -165,9 +178,8 @@ public class StringLib<T> extends CircuitLib<T> {
                 nw = costJ;
                 costJ = cj;
 
-                System.out.println("nw " + toDecimal(nw) + " cost "
-                        + toDecimal(cj) + " costcounter " + costCounter + " minCostJJPrev " + toDecimal(minCostJJPrev));//
-
+//                System.out.println("nw " + toDecimal(nw) + " cost "
+//                        + toDecimal(cj) + " costcounter " + costCounter + " minCostJJPrev " + toDecimal(minCostJJPrev));//
                 System.arraycopy(costJ, 0, costs, costCounter, 16);
                 costCounter += 16;
             }
@@ -183,7 +195,7 @@ public class StringLib<T> extends CircuitLib<T> {
 //            }
 //        }
 //        return res;
-        System.out.println("returning " + toDecimal(Arrays.copyOfRange(costs, costs.length - 32, costs.length - 16)));
+//        System.out.println("returning " + toDecimal(Arrays.copyOfRange(costs, costs.length - 32, costs.length - 16)));
         return Arrays.copyOfRange(costs, costs.length - 32, costs.length - 16);
     }
 
@@ -193,6 +205,11 @@ public class StringLib<T> extends CircuitLib<T> {
         return add(x, one);
     }
 
+//    public T[] conditionalIncreament(T x, T flag) {
+////         one = SIGNAL_ZERO;
+//        T one = mux(SIGNAL_ZERO, SIGNAL_ONE, flag);
+//        return add(x, one, env.newT(false));
+//    }
     public T[] incrementByOne(T[] x) {
         T[] one = zeros(x.length);
         one[0] = SIGNAL_ONE;
